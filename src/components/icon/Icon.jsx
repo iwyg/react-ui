@@ -11,15 +11,16 @@ const defaultProps = {
   size: 48
 };
 
-const Icon = (Element) => {
-  const IconElement = ({children, size, ...props}) => {
+const Icon = (Element, dpName = 'Icon') => {
+  const IconCmp = ({children, size, ...props}) => {
      return (<Base className={classNames(style.icon, style[`icon${size}`])}><Element {...props}/>{children}</Base>);
   };
 
-  IconElement.propTypes = propTypes;
-  IconElement.defaultProps = defaultProps;
+  IconCmp.propTypes    = propTypes;
+  IconCmp.defaultProps = defaultProps;
+  IconCmp.displayName  = dpName;
 
-  return IconElement;
+  return IconCmp;
 };
 
 export default Icon;

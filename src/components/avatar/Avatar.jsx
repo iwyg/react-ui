@@ -53,8 +53,8 @@ const defaultProps = {
  * @returns {XML}
  * @constructor
  */
-const Avatar = (Component) => {
-  const Wrapper = ({size, children, ...props}) => {
+const Avatar = (Component, dpName = 'Avatar') => {
+  const AvatarCmp = ({size, children, ...props}) => {
     const shape  = findShape(props) || 'circle';
 
     return (
@@ -64,10 +64,11 @@ const Avatar = (Component) => {
     );
   };
 
-  Wrapper.propTypes = propTypes;
-  Wrapper.defaultProps = defaultProps;
+  AvatarCmp.propTypes    = propTypes;
+  AvatarCmp.defaultProps = defaultProps;
+  AvatarCmp.displayName  = dpName;
 
-  return Wrapper;
+  return AvatarCmp;
 };
 
 export default Avatar;

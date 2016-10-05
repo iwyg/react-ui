@@ -1,22 +1,43 @@
 import React, {PropTypes} from 'react';
-import style from 'style';
+import Base from 'components/base';
+import style from './style';
 
-const Wallpaper = ({...props}) => {
-  let {children, src} = props;
-  const css =  {
+/**
+ *
+ * @param src
+ * @returns {{backgroundImage: string}}
+ * @constructor
+ */
+const WpStyle = (src) => {
+  return {
     backgroundImage: `url(${src})`
-  };
+  }
+};
+
+/**
+ *
+ * @param src
+ * @param children
+ * @param props
+ * @returns {XML}
+ * @constructor
+ */
+const Wallpaper = ({src, children, ...props}) => {
+  const css = WpStyle(src);
+
   return (
-    <div className={style.wallpaper} style={css}>{children}</div>
+    <Base className={style.wallpaper} style={css} {...props}>
+      {children}
+    </Base>
   );
 };
 
+/**
+ *
+ * @type {{src: *}}
+ */
 Wallpaper.propTypes = {
-  src: PropTypes.string.isRequired,
-};
-
-Wallpaper.defaultProps = {
-  children: null
+  src: PropTypes.string.isRequired
 };
 
 export default Wallpaper;
