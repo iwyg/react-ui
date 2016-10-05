@@ -1,0 +1,52 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "NODE_ENV=development webpack-dev-server --inline --hot --config webpack.config",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@kadira/storybook": "^2.5.2",
+    "autoprefixer": "^6.4.1",
+    "babel-cli": "^6.14.0",
+    "babel-core": "*",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-react-transform": "^2.0.2",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-1": "^6.13.0",
+    "babel-preset-stage-2": "^6.13.0",
+    "css-loader": "^0.25.0",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "jasmine": "*",
+    "jest": "*",
+    "karma": "*",
+    "node-sass": "^3.10.0",
+    "postcss-loader": "^0.13.0",
+    "precss": "^1.4.0",
+    "react-vendor-prefixes": "0.0.2",
+    "rucksack-css": "^0.8.6",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "svg-react-loader": "^0.3.7",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.1"
+  },
+  "dependencies": {
+    "bulma": "^0.2.1",
+    "global": "*",
+    "lodash.debounce": "^4.0.8",
+    "react": "^15.3.2",
+    "react-addons-css-transition-group": "^15.3.2",
+    "react-addons-pure-render-mixin": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "rxjs": "^5.0.0-beta.12"
+  }
+}

@@ -1,0 +1,72 @@
+@import "./config";
+
+@each $size in $sizes {
+  .avatar#{$size} {
+    height: #{$size / 10}rem;
+    width: #{$size / 10}rem;
+  }
+}
+
+%qube {
+  width:  100%;
+  height:  100%;
+}
+
+
+.avatar, .alias {
+  overflow: hidden;
+}
+.avatar {
+  overflow: hidden;
+  transition: $avatar-transition;
+  & > div {
+    transition: $avatar-transition;
+    will-change: auto;
+    @extend %qube;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    filter: blur(0px);
+    perspective: 1000;
+    will-change: auto;
+  }
+}
+
+.square {
+  //&:hover {
+  //  transform: scale(0.7078) rotate(45deg);
+  //  & > div {
+  //    filter: blur(0px);
+  //    transform: scale(1.4) rotate(-45deg) translateZ(0);
+  //  }
+  //}
+}
+
+.diamond {
+  transform: scale(0.7078) rotate(45deg);
+  & > div {
+    perspective: 1000;
+    transform: scale(1.4) rotate(-45deg) translateZ(0);
+  }
+  //&:hover {
+  //  transform: scale(1) rotate(45deg);
+  //  border-radius: 100%;
+  //  & > div {
+  //    perspective: 1000;
+  //    filter: blur(0px);
+  //    transform: scale(1) rotate(-45deg) translateZ(0);
+  //  }
+  //}
+}
+
+.circle {
+  border-radius: 100%;
+  //&:hover {
+  //  border-radius: 0;
+  //  transform: scale(0.7078) rotate(45deg);
+  //  & > div {
+  //    filter: blur(0px);
+  //    transform: scale(1.4) rotate(-45deg) translateZ(0);
+  //  }
+  //}
+}
