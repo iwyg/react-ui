@@ -16,3 +16,4 @@ export const callIfFunc = (fn, context = null, ...args) => {
   }
   return fn.apply(context, args);
 };
+

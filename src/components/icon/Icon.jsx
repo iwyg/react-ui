@@ -1,19 +1,41 @@
 import React, {PropTypes} from 'react';
 import Base from 'components/base';
 import {classNames} from 'lib/util';
+import config from 'components/config';
 import style from './style';
 
+/**
+ *
+ * @type {{size: *}}
+ */
 const propTypes = {
-  size: PropTypes.oneOf([16, 32, 48]).isRequired
+  size: PropTypes.oneOf(config.iconSizes).isRequired
 };
 
+/**
+ *
+ * @type {{size: number}}
+ */
 const defaultProps = {
-  size: 48
+  size: config.defaultIconSize
 };
 
+/**
+ * Wrapper component for creating Icon Compoments.
+ *
+ * @param {function} Element
+ * @param {string} dpName Component display name
+ * @returns {function({children: *, size: *, props: *})}
+ * @constructor
+ */
 const Icon = (Element, dpName = 'Icon') => {
   const IconCmp = ({children, size, ...props}) => {
-     return (<Base className={classNames(style.icon, style[`icon${size}`])}><Element {...props}/>{children}</Base>);
+     return (
+       <Base className={classNames(style.icon, style[`icon${size}`])}>
+         <Element {...props}/>
+         {children}
+       </Base>
+     );
   };
 
   IconCmp.propTypes    = propTypes;

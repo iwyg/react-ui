@@ -11,9 +11,10 @@ import Fieldset from 'components/fieldset';
 import {Columns, Column} from 'components/grid';
 import Fieldgroup from 'components/fieldgroup';
 import Tree, {Dir, File} from 'components/file';
+import Image from 'components/image';
 
 import Wallpaper from 'components/wallpaper';
-
+import SliderDemo from './SliderDemo';
 require('./base.scss');
 
 const CAvatar = Avatar(Wallpaper);
@@ -34,33 +35,51 @@ storiesOf('Button', module)
     <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>
   ));
 
+const sliderMap = {0: 'basic', 1: 'team', 2: 'enterprise', 3: 'custom'};
 storiesOf('Slider', module) .add('slider test', () => (
-    <Slider min={0} max={100}></Slider>
+  <div>
+    <SliderDemo step={1} min={10} max={20}/>
+    <SliderDemo step={0.01} min={0} max={10}/>
+    <Label value='Select your package size'/>
+    <SliderDemo step={1} min={0} max={3} displayValue={(value) => {
+      return sliderMap[value];
+    }}/>
+  </div>
   ));
 
+const imgStyle = {
+  width: '100%',
+  height: 'auto'
+}
 storiesOf('Grid', module)
   .add('Normal grid', () => (
-    <Columns style={{maxWidth: '100%'}}>
+    <Columns>
       <Column>
-        <img src="http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png" />
+        <div>
+          <Image style={imgStyle} src='http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png'></Image>
+        </div>
       </Column>
       <Column>
-        <img src="http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png" />
+        <div>
+          <Image style={imgStyle} src='https://pbs.twimg.com/profile_images/680013554682990593/CoOfIbhF.jpg'></Image>
+        </div>
       </Column>
       <Column>
-        <img src="http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png" />
+        <div>
+          <Image style={imgStyle} src='http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png'></Image>
+        </div>
       </Column>
     </Columns>
   ));
 
 const sys = {
-  path: 'a',
+  path: 'mountC',
   dirs: [
     {
-      path: 'b',
+      path: 'home',
       dirs: [
         {
-          path: 'c1',
+          path: 'malc',
           dirs: [
             {
               path: 'm',
@@ -136,8 +155,6 @@ storiesOf('Avatar', module)
       <CAvatar src='http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png'></CAvatar>
       <hr/>
       <CAvatar diamond src='https://s-media-cache-ak0.pinimg.com/originals/ed/58/90/ed58907015b3f1a0ae4b14bb2fd9ada0.png'></CAvatar>
-      <hr/>
-      <CAvatar square src='https://pbs.twimg.com/profile_images/680013554682990593/CoOfIbhF.jpg'></CAvatar>
       <hr/>
       <CAlias square name='ass hole nation is fo'></CAlias>
       <hr/>

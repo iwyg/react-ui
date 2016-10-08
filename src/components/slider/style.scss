@@ -6,7 +6,7 @@
   height: $slider_bar_size;
   margin-top: #{$slider_handle_size / 2};
   margin-bottom: #{($slider_handle_size / 2) - $slider_bar_size};
-  position: absolute;
+  position: relative;
 }
 
 
@@ -34,7 +34,7 @@
 
 .slider {
   box-sizing: border-box;
-  background: red;
+  background: #fff;
   & * {
     box-sizing: border-box;
   }
@@ -43,10 +43,13 @@
   width: 100%;
   padding: $slider_padding $slider_handle_size;
   cursor: -webkit-grab;
+  cursor: grab;
   user-select: none;
-  &.moving {
+
+  &.moving, &:focus {
     cursor: move;
     cursor: -webkit-grabbing;
+    cursor: grabbing;
   }
 }
 
@@ -59,7 +62,16 @@
 .bar {
   @extend %slider-bar;
   width: 0%;
+  padding-right: $slider_handle_size / 4;
   z-index: 1;
+  background: none;
+  &:after {
+    content: ' ';
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: $slider_bar_color;
+  }
 }
 
 .rail {
@@ -69,36 +81,39 @@
   z-index: 0;
 }
 
-.handle {
-  transition: transform .2s cubic-bezier(0.1, 0.8, 0.6, 0.1);
+.handle  {
+  transition: all .1s cubic-bezier(0.1, 0.8, 0.6, 0.1);
   width: $slider_handle_size / 2;
   height: $slider_handle_size / 2;
   position: absolute;
   right: 0;
 
+  border: .2rem solid $slider_bar_color;
+
   z-index: 100;
   margin-right: -#{$slider_handle_size / 4};
   margin-top: -#{$slider_handle_size / 4};
-  background: rgba(#03A9F4, 0.5);
+  background: rgba($slider_rail_color, 0);
+
 
   border-radius: $slider_handle_size;
 
-  .moving & {
-    width: $slider_handle_size;
-    height: $slider_handle_size;
-    margin-right: -#{$slider_handle_size / 2};
-    margin-top: -#{$slider_handle_size / 2};
+  .moving & , :focus & {
+    background: rgba($slider_bar_color, 1);
   }
 }
 
 .ripple {
-  width: $slider_handle_size / 1.6;
-  height: $slider_handle_size / 1.6;
-  position: absolute;
-  right: 0;
-
-  background: red;
+  transition: all .1s cubic-bezier(0.1, 0.8, 0.6, 0.1);
+  height: 100%;
+  width: 100%;
+  background: rgba($slider_bar_color, 0);
   border-radius: $slider_handle_size;
+
+  .moving & , :focus & {
+    background: rgba($slider_bar_color, .5);
+    transform: scale(4);
+  }
 }
 
 .innerHandle {
