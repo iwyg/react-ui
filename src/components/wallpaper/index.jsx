@@ -5,25 +5,15 @@ import style from './style';
 /**
  *
  * @param src
- * @returns {{backgroundImage: string}}
- * @constructor
- */
-const WpStyle = (src) => {
-  return {
-    backgroundImage: `url(${src})`
-  }
-};
-
-/**
- *
- * @param src
  * @param children
  * @param props
  * @returns {XML}
  * @constructor
  */
 const Wallpaper = ({src, children, ...props}) => {
-  const css = WpStyle(src);
+  const css = {
+    backgroundImage: `url(${src})`
+  };
 
   return (
     <Base className={style.wallpaper} style={css} {...props}>
