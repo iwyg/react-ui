@@ -15,6 +15,7 @@ import Image from 'components/image';
 
 import Wallpaper from 'components/wallpaper';
 import SliderDemo from './SliderDemo';
+import Fader from './Fader';
 require('./base.scss');
 
 const CAvatar = Avatar(Wallpaper);
@@ -36,15 +37,39 @@ storiesOf('Button', module)
   ));
 
 const sliderMap = {0: 'basic', 1: 'team', 2: 'enterprise', 3: 'custom'};
-storiesOf('Slider', module) .add('slider test', () => (
+storiesOf('Slider', module)
+  .add('slider test', () => (
   <div>
-    <SliderDemo step={1} min={10} max={20}/>
-    <SliderDemo step={0.01} min={0} max={10}/>
-    <Label value='Select your package size'/>
-    <SliderDemo step={1} min={0} max={3} displayValue={(value) => {
-      return sliderMap[value];
-    }}/>
+    <div>
+      <SliderDemo step={1} min={10} max={20}/>
+    </div>
+    <div>
+      <SliderDemo step={0.01} min={0} max={10}/>
+    </div>
+    <div>
+      <Label value='Select your package size'/>
+      <SliderDemo step={1} min={0} max={3} displayValue={(value) => {
+        return sliderMap[value];
+      }}/>
+    </div>
+    <div>
+      <Label value='Timmey!'/>
+      <SliderDemo min={0} max={100} value={42} disabled/>
+    </div>
+
   </div>
+  ))
+  .add('Fader', () => (
+    <div style={{height: '30%'}}>
+      <Fader key="0"/>
+      <Fader key="1"/>
+      <Fader key="2"/>
+      <Fader key="3"/>
+      <Fader key="4"/>
+      <Fader key="5"/>
+      <Fader key="6"/>
+      <Fader key="8"/>
+    </div>
   ));
 
 const imgStyle = {

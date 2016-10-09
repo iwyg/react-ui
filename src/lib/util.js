@@ -14,6 +14,7 @@ export const callIfFunc = (fn, context = null, ...args) => {
   if (!isFunc(fn)) {
     return;
   }
+
   return fn.apply(context, args);
 };
 

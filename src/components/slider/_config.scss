@@ -3,8 +3,10 @@ $slider_padding: .2rem;
 $slider_handle_width: 2.4rem;
 $slider_handle_height: 2.4rem;
 $slider_handle_size: 2.4rem;
+$slider_handle_layer_postion: 100;
 
 $slider_bar_size: .1rem;
 
 $slider_bar_color: #00BCD4;
 $slider_rail_color: #e4e4e4;//lighten($slider_bar_color, 14);
+$slider_background_color: #fff;//lighten($slider_bar_color, 14);

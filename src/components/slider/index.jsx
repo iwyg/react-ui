@@ -1,45 +1,54 @@
 import React, {PropTypes} from 'react';
-import {classNames, className as cn} from 'lib/util';
+import {classNames, callIfFunc} from 'lib/util';
 import {document} from 'global';
 import style from 'style';
 import {toFixed} from 'lib/num';
 import {range} from 'lib/struct';
+import {ORIENT_VR, ORIENT_HR} from 'components/constants'
 
-/**
- * @type {string}
- */
-const ORIENT_HR = 'horizontal';
-
-/**
- * @type {string}
- */
-const ORIENT_VR = 'vertical';
+const PROPERTY_MAP = {
+  [ORIENT_VR]: {
+    RECT_POS: 'top',
+    RECT_PROP: 'height',
+    AXIS: 'y'
+  },
+  [ORIENT_HR] : {
+    RECT_POS: 'left',
+    RECT_PROP: 'width',
+    AXIS: 'x'
+  }
+};
 
 /**
  *
  * @param value
  * @param min
  * @param max
+ * @param reversed {Boolean}
  * @returns {{val: number, pos: *}}
  */
-const getValueAndPos = (value, min, max) => {
+const getValueAndPos = (value, min, max, reversed = false) => {
   const val = Math.max(min, Math.min(max, value));
-  const pos = mapValueToPosition(val, min, max);
+  const pos = mapValueToPosition(val, min, max, reversed);
 return {val, pos};
 };
 
 /**
- * @param value
- * @param min
- * @param max
+ * @param value {number}
+ * @param min {Number}
+ * @param max {Number}
+ * @param reversed {Boolean}
  * @returns {number}
  */
-const mapValueToPosition = (value, min, max) => {
+const mapValueToPosition = (value, min, max, reversed = false) => {
   return (value - min) / ((max - min) / 100);
+  //return reversed ? 100 - pos : pos;
 };
 
 /**
  * Slider constructor
+ *
+ * @TODO: Add keycode support.
  */
 class Slider extends React.Component {
   /**
@@ -66,6 +75,33 @@ class Slider extends React.Component {
   dragging = false
 
   /**
+   * Gets the rect position depending on its appearance (left or top).
+   *
+   * @returns {string|string}
+   */
+  getRectPosition() {
+    return PROPERTY_MAP[this.props.appearance].RECT_POS;
+  }
+
+  /**
+   * Gets the rect property depending on its appearance (width or height).
+   *
+   * @returns {string|string}
+   */
+  getRectProperty() {
+    return PROPERTY_MAP[this.props.appearance].RECT_PROP;
+  }
+
+  /**
+   * Gets the axis key depending on appearance (x or y).
+   *
+   * @returns {string|string}
+   */
+  getDragAxis() {
+    return PROPERTY_MAP[this.props.appearance].AXIS;
+  }
+
+  /**
    * Calculates the value based on the current dragging point.
    *
    * @param {{x: number, y: number}} mPos
@@ -89,21 +125,48 @@ class Slider extends React.Component {
         return;
       }
 
-      const {step, max, min} = this.props;
+      const {
+        max,
+        min,
+        step,
+        appearance
+      }          = this.props;
+      const n    = mPos[this.getDragAxis()];
+      const rect = this.elements.inner.getBoundingClientRect();
+      const lt   = rect[this.getRectPosition()]
+      const wh   = rect[this.getRectProperty()];
+      const m    =  appearance === ORIENT_VR ?
+        Math.max(0, Math.min(wh, 0 - ((n - lt) - wh))) :
+        n - lt;
 
-      let {x, y} = mPos;
-      let rect = this.elements.inner.getBoundingClientRect();
-      let pos  = Math.max(0, Math.min(1, ((x - rect.left) / rect.width))) * 100;
-
-      let value = toFixed((pos * (max - min) / 100) + min, step);
+      let pos    = Math.max(0, Math.min(1, (m / wh))) * 100;
+      let value  = toFixed((pos * (max - min) / 100) + min, step);
 
       // call onUpdate callback
       if (Math.round(value % step) === 0) {
-        this.props.onUpdate(value);
+        this.updateValue(value);
       }
     });
   }
 
+  /**
+   * Calls the onUpdate callback.
+   *
+   * Only calls if value has actually changed.
+   *
+   * @param value {Number}
+   */
+  updateValue(value) {
+    if (this.props.value !== value) {
+      this.props.onUpdate(value);
+    }
+  }
+
+  /**
+   * Updates the handle position.
+   *
+   * @param pos {Number}
+   */
   updatePosition(pos) {
     this.setState({pos});
   }
@@ -158,52 +221,89 @@ class Slider extends React.Component {
     this.setState({moving: false});
   }
 
+  /**
+   * @param {MouseEvent} e
+   */
+  onClick = (e) => {
+    this.onMouseMove(e);
+    this.setState({moving: false});
+  }
+
+  /**
+   * @param {TouchEvent} e
+   */
+  onTouch = (e) => {
+    this.onTouchMove(e);
+    this.setState({moving: false});
+  }
+
+  /**
+   * Handle blur event.
+   *
+   * @param e {Event}
+   */
   onBlur = (e) => {
-    this.setState({focused: false});
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('touchmove', this.onMouseMove);
 
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    this.setState({focused: false, moving: false});
+    callIfFunc(this.props.onBlur, null, e);
   }
 
+  /**
+   * Handle focus event.
+   *
+   * @param e {Event}
+   */
   onFocus = (e) => {
     this.setState({focused: true});
-
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
-    }
+    callIfFunc(this.props.onFocus, null, e);
   }
 
+  /**
+   * Update slider
+   */
   componentWillReceiveProps(props, state) {
-    const {value, min, max} = props;
-    let {pos} = getValueAndPos(value, min, max);
+    const {value, min, max, appearance} = props;
+    const {pos}             = getValueAndPos(value, min, max, appearance === ORIENT_VR);
 
     this.updatePosition(pos);
   }
 
+  /**
+   * Prepare slider
+   */
   componentWillMount() {
-    const {min, max, value} = this.props;
-
-    let {val, pos} = getValueAndPos(value, min, max);
+    const {min, max, value, appearance} = this.props;
+    const {val, pos}        = getValueAndPos(value, min, max, appearance === ORIENT_VR);
 
     this.updatePosition(pos);
-
-    this.props.onUpdate(val);
+    this.updateValue(val);
   }
 
+  /**
+   * Renders the component.
+   *
+   * @returns {XML}
+   */
   render () {
 
     const {focused, pos, moving} = this.state;
-    const {display} = this.props;
+    const {appearance, value, disabled} = this.props;
+    const elStyle                = {[this.getRectProperty()] : `${pos}%`};
 
     return (
       <div
         ref="slider"
+        onClick={this.onClick}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
-        className={classNames(style.slider, {[style.moving]: moving})}
+        className={classNames(
+          style.slider,
+          {[style[appearance]]: true},
+          {[style.moving]: moving},
+          {[style.focused]: focused}
+        )}
         onMouseUp={this.onMouseUp}
         onMouseDown={this.onMouseDown}
         onTouchStart={this.onTouchStart}
@@ -211,13 +311,14 @@ class Slider extends React.Component {
       >
         <div ref={(node) => this.elements.inner = node} className={style.inner}>
           <div ref='sliderRail' className={style.rail}>
-            <div ref={(node) => this.elements.bar = node} className={style.bar} style={{width: `${pos}%`}}>
+            <div ref={(node) => this.elements.bar = node} className={style.bar} style={elStyle}>
               <div className={style.handle}>
                 <div className={style.ripple}></div>
               </div>
             </div>
           </div>
         </div>
+        <input type="hidden" disabled={disabled} value={value} />
       </div>
     );
   }
@@ -227,24 +328,24 @@ class Slider extends React.Component {
  * @type {{disabled: (*), snap: (*), min, max, values: *, step, value, onUpdate: *, onFocus: (*), onBlur: (*)}}
  */
 Slider.propTypes = {
-  onUpdate:  PropTypes.func.isRequired,
-  onFocus:   PropTypes.func,
-  onBlur:    PropTypes.func,
-  disabled:  PropTypes.bool,
-  snap:      PropTypes.bool,
-  min:       PropTypes.number,
-  max:       PropTypes.number,
-  step:      PropTypes.number,
-  value:     PropTypes.number,
+  onUpdate:   PropTypes.func.isRequired,
+  onFocus:    PropTypes.func,
+  onBlur:     PropTypes.func,
+  disabled:   PropTypes.bool,
+  snap:       PropTypes.bool,
+  min:        PropTypes.number,
+  max:        PropTypes.number,
+  step:       PropTypes.number,
+  value:      PropTypes.number,
   appearance: PropTypes.oneOf([ORIENT_HR, ORIENT_VR])
 };
 
 /**
- * @type {{onUpdate: ((e?, value?)), min: number, max: number, value: number, step: number, disabled: boolean, snap: boolean}}
+ * @type {{onUpdate: ((value {Numbner})), min: number, max: number, value: number, step: number, disabled: boolean, snap: boolean}}
  */
 Slider.defaultProps = {
-  onUpdate(e, value) {
-    console.log(e, value);
+  onUpdate(value) {
+    console.info(value);
   },
   min: 0,
   max: 100,

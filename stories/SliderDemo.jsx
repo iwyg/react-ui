@@ -18,9 +18,14 @@ class SliderDemo extends React.Component {
   render() {
     const {...props} = this.props;
     const {value} = this.state;
+    const style = this.props.appearance  && this.props.appearance === 'horizontal' ? {
+      width: '100%'
+    } : {
+      height: '100%'
+    };
 
     return (
-    <div>
+    <div style={style}>
       <Slider {...props} value={value} onUpdate={this.onUpdate}/>
       <label>{this.props.displayValue(value)}</label>
     </div>
