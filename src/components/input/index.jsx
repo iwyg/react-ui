@@ -36,7 +36,7 @@ const Input = ({...props}) => {
       type={type}
       name={name}
       {...elProps}
-    ></Base>
+    />
   );
   const dirtyClass = InputComponent.props.value ? 'loaded' : null;
   const LabelComponent = label ?
