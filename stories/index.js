@@ -182,11 +182,13 @@ storiesOf('Avatar', module)
       <hr/>
       <CAvatar diamond src='https://s-media-cache-ak0.pinimg.com/originals/ed/58/90/ed58907015b3f1a0ae4b14bb2fd9ada0.png'></CAvatar>
       <hr/>
-      <CAlias square name='ass hole nation is fo'></CAlias>
+      <CAlias diamond name='A 32'></CAlias>
+      <hr/>
+      <CAlias name='ass hole nation is fo'></CAlias>
       <hr/>
       <CAlias circle name='ass hole nation' alias='ah'></CAlias>
       <hr/>
-      <CAlias circle size={96} name='ass hole nation' alias='ah'></CAlias>
+      <CAlias size={96} name='ass hole nation' alias='ah'></CAlias>
     </div>
   ));
 

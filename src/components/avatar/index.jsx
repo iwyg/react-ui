@@ -53,11 +53,11 @@ const defaultProps = {
  * @constructor
  */
 const Avatar = (Component, dpName = 'Avatar') => {
-  const AvatarCmp = ({size, children, ...props}) => {
-    const shape  = findShape(props) || 'circle';
+  const AvatarCmp = ({size, children, diamond, square, circle, ...props}) => {
+    const shape  = findShape({diamond, square, circle}) || 'circle';
 
     return (
-      <Base className={classNames(style.avatar, style[shape], style[`avatar${size}`])} {...props}>
+      <Base className={classNames(style.avatar, style[shape], style[`avatar${size}`])}>
         <Component {...props}>{children}</Component>
       </Base>
     );
