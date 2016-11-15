@@ -2,11 +2,20 @@ import React, {PropTypes} from 'react';
 import Base from 'components/base';
 import css from './style';
 import {classNames} from 'lib/util';
+import {Promise} from 'global';
 
+/**
+ * @param {Function} resolve
+ * @param {String} src
+ */
 const onLoaded = (resolve, src) => {
   return (event) => resolve({event, src});
 };
 
+/**
+ * @param {Function} reject
+ * @param {String} src
+ */
 const onErrored = (reject, src) => {
   return (event) => {
     const reason = event.type;
@@ -15,18 +24,24 @@ const onErrored = (reject, src) => {
 };
 
 /**
+ * Image Constructor.
  *
- * @param src
- * @param props
+ * @param {String} src
+ * @param {Function} onLoad
+ * @param {Boolean} visible
+ * @param {Boolean} flex
+ * @param {Object} style
+ * @param {string} className
+ * @param {Object} props
  * @returns {XML}
  * @constructor
+ * @TODO curry this
  */
 const Image = ({src, onLoad, visible, flex, style, className, ...props}) => {
   let _onLoaded;
   let _onErrored;
-  const imgStyle = visible ? {opacity: 1} : {opacity: 0};
 
-  const promise = new Promise((resolve, reject) => {
+  const promise  = new Promise((resolve, reject) => {
     _onLoaded  = onLoaded(resolve, src);
     _onErrored = onErrored(reject, src);
   });
@@ -38,7 +53,7 @@ const Image = ({src, onLoad, visible, flex, style, className, ...props}) => {
       {...props}
       src={src}
       tagName='img'
-      style={Object.assign({}, style, imgStyle)}
+      style={Object.assign({}, style, {opacity: visible ? 1 : 0})}
       className={classNames(css.img, {[css.flex]: flex }, className || null)}
       onLoad={_onLoaded}
       onError={_onErrored}
@@ -72,6 +87,5 @@ Image.defaultProps = {
     });
   }
 };
-
 
 export default Image;
