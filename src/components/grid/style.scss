@@ -1,1 +1,5 @@
 @import "bulma/sass/grid/columns.sass";
+
+.column > * {
+  width: 100%;
+}

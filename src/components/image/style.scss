@@ -1,0 +1,15 @@
+.img {
+  display: block;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.8, 0.17, 0.26, 0.91);
+  &.flex {
+    width: 100%;
+    height: auto;
+  }
+  &.visible {
+    opacity: 1;
+  }
+  &.hidden {
+    opacity: 0;
+  }
+}

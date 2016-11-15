@@ -12,16 +12,17 @@ import {Columns, Column} from 'components/grid';
 import Fieldgroup from 'components/fieldgroup';
 import Tree, {Dir, File} from 'components/file';
 import Image from 'components/image';
+import ImageWrapper from './ImageWrapper.jsx';
 
 import Wallpaper from 'components/wallpaper';
+import Fetch from 'components/fetch';
 import SliderDemo from './SliderDemo';
 import Fader from './Fader';
+import fetch from 'isomorphic-fetch';
 require('./base.scss');
 
 const CAvatar = Avatar(Wallpaper);
 const CAlias = Avatar(Alias);
-
-console.log(Alias, Avatar);
 
 storiesOf('Welcome', module)
   .add('to Storybook', () => (
@@ -86,7 +87,7 @@ storiesOf('Grid', module)
       </Column>
       <Column>
         <div>
-          <Image style={imgStyle} src='https://pbs.twimg.com/profile_images/680013554682990593/CoOfIbhF.jpg'></Image>
+          <Image style={imgStyle} src='http://mila-kunis.4fans.net/de/wp-content/uploads/2015/07/003.png'></Image>
         </div>
       </Column>
       <Column>
@@ -193,7 +194,7 @@ storiesOf('Input', module)
   .add('test', () => (
     <Fieldset label='not so sure'>
       <Fieldgroup>
-        <Input type="text" label="Username or E-Mail" name="user" value="mail@thomas-appel.com">
+        <Input type="text" label="Username or E-Mail" name="user">
         </Input>
         <div>this is your doom</div>
         <Input type="password" label="Password" name="mail">
@@ -216,4 +217,17 @@ storiesOf('Wallpaper', module)
         </form>
       </div>
     </Wallpaper>
+  ));
+
+storiesOf('Image', module)
+  .add('Image loads', () => (
+    <ImageWrapper src="https://images.unsplash.com/photo-1443996104801-80c82e789b18?dpr=1&auto=format&fit=crop&w=1500&h=997&q=80&cs=tinysrgb&crop="/>
+  ))
+  .add('Image fails to load', () => (
+    <Image src="http://noimage.jpg"/>
+  ));
+
+storiesOf('Fetch', module)
+  .add('background image', () => (
+    <Fetch></Fetch>
   ));

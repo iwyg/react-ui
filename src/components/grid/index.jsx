@@ -12,5 +12,6 @@ export const Column = ({children, ...props}) => {
 };
 
 Columns.propTypes = {
-  children: PropTypes.oneOfType([Column])
+  //children: PropTypes.oneOfType([Column])
+  //children: PropTypes.any
 };

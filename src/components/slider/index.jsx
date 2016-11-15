@@ -344,9 +344,7 @@ Slider.propTypes = {
  * @type {{onUpdate: ((value {Numbner})), min: number, max: number, value: number, step: number, disabled: boolean, snap: boolean}}
  */
 Slider.defaultProps = {
-  onUpdate(value) {
-    console.info(value);
-  },
+  onUpdate : value => value,
   min: 0,
   max: 100,
   value: 0,

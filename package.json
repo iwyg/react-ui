@@ -41,7 +41,9 @@
   },
   "dependencies": {
     "bulma": "^0.2.1",
+    "es6-promise": "^4.0.5",
     "global": "*",
+    "isomorphic-fetch": "^2.2.1",
     "lodash.debounce": "^4.0.8",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",

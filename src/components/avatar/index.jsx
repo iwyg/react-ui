@@ -5,7 +5,6 @@ import style from './style';
 import config from 'components/config';
 
 const sizes = config.sizes;
-console.log(style);
 
 /**
  * Reduces possible shape props to a single string representing the shapes' name.
