@@ -1,0 +1,24 @@
+.checkBox {
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  & + span {
+    float: left;
+    display: inline-block;
+  }
+  width: 1.6rem;
+  height: 1.6rem;
+  border: .1rem solid black;
+
+  & input[type=checkbox] {
+    display: none;
+    &:checked + .checker {
+      background: red;
+    }
+  }
+}
+.checker {
+  width: 100%;
+  height: 100%;
+  float: left;
+}

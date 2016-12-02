@@ -1,0 +1,6 @@
+$input-element-easing: cubic-bezier(.67,.14,.24,.94);
+$input-element-transition-duration: .25s;
+
+@mixin input-transition($properties: all) {
+  transition: $properties $input-element-transition-duration $input-element-easing;
+}

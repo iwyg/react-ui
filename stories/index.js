@@ -19,6 +19,8 @@ import Fetch from 'components/fetch';
 import SliderDemo from './SliderDemo';
 import Fader from './Fader';
 import fetch from 'isomorphic-fetch';
+import SelectDemo from './SelectDemo';
+import CheckBox from 'components/checkbox';
 require('./base.scss');
 
 const CAvatar = Avatar(Wallpaper);
@@ -27,6 +29,17 @@ const CAlias = Avatar(Alias);
 storiesOf('Welcome', module)
   .add('to Storybook', () => (
     <Welcome showApp={linkTo('Button')}/>
+  ));
+
+storiesOf('CheckBox', module)
+  .add('to Storybook', () => (
+    <Label value='test'>
+      <CheckBox onChange={checked => console.log(checked)}/>
+    </Label>
+  ));
+storiesOf('Select', module)
+  .add('to Storybook', () => (
+    <SelectDemo options={{foo:'Bar', baz: 'Fazz'}}/>
   ));
 
 storiesOf('Button', module)
@@ -194,16 +207,15 @@ storiesOf('Avatar', module)
 
 storiesOf('Input', module)
   .add('test', () => (
-    <Fieldset label='not so sure'>
-      <Fieldgroup>
-        <Input type="text" label="Username or E-Mail" name="user">
+    <form>
+      <Fieldset>
+        <Input type="text" label="Username or E-Mail" name="user" autocomplete='off'>
         </Input>
-        <div>this is your doom</div>
-        <Input type="password" label="Password" name="mail">
-          <div>this is your doom</div>
+        <Input type="password" label="Enter your password" name="user">
         </Input>
-      </Fieldgroup>
-    </Fieldset>
+      </Fieldset>
+      <Button value="Login">Login</Button>
+    </form>
   ));
 
 storiesOf('Wallpaper', module)

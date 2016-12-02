@@ -3,8 +3,7 @@ import {classNames, callIfFunc} from 'lib/util';
 import {document} from 'global';
 import style from 'style';
 import {toFixed} from 'lib/num';
-import {range} from 'lib/struct';
-import {ORIENT_VR, ORIENT_HR} from 'components/constants'
+import {ORIENT_VR, ORIENT_HR} from 'components/constants';
 
 const PROPERTY_MAP = {
   [ORIENT_VR]: {
@@ -13,9 +12,9 @@ const PROPERTY_MAP = {
     AXIS: 'y'
   },
   [ORIENT_HR] : {
-    RECT_POS: 'left',
-    RECT_PROP: 'width',
-    AXIS: 'x'
+    RECT_POS: 'left', 
+    RECT_PROP: 'width', 
+    AXIS: 'x' 
   }
 };
 
@@ -24,25 +23,22 @@ const PROPERTY_MAP = {
  * @param value
  * @param min
  * @param max
- * @param reversed {Boolean}
  * @returns {{val: number, pos: *}}
  */
-const getValueAndPos = (value, min, max, reversed = false) => {
+const getValueAndPos = (value, min, max) => {
   const val = Math.max(min, Math.min(max, value));
-  const pos = mapValueToPosition(val, min, max, reversed);
-return {val, pos};
+  const pos = mapValueToPosition(val, min, max);
+  return {val, pos};
 };
 
 /**
  * @param value {number}
  * @param min {Number}
  * @param max {Number}
- * @param reversed {Boolean}
- * @returns {number}
+ * @returns {Number}
  */
-const mapValueToPosition = (value, min, max, reversed = false) => {
+const mapValueToPosition = (value, min, max) => {
   return (value - min) / ((max - min) / 100);
-  //return reversed ? 100 - pos : pos;
 };
 
 /**
@@ -133,7 +129,7 @@ class Slider extends React.Component {
       }          = this.props;
       const n    = mPos[this.getDragAxis()];
       const rect = this.elements.inner.getBoundingClientRect();
-      const lt   = rect[this.getRectPosition()]
+      const lt   = rect[this.getRectPosition()];
       const wh   = rect[this.getRectProperty()];
       const m    =  appearance === ORIENT_VR ?
         Math.max(0, Math.min(wh, 0 - ((n - lt) - wh))) :
@@ -263,9 +259,9 @@ class Slider extends React.Component {
   /**
    * Update slider
    */
-  componentWillReceiveProps(props, state) {
+  componentWillReceiveProps(props) {
     const {value, min, max, appearance} = props;
-    const {pos}             = getValueAndPos(value, min, max, appearance === ORIENT_VR);
+    const {pos}                         = getValueAndPos(value, min, max, appearance === ORIENT_VR);
 
     this.updatePosition(pos);
   }
@@ -275,7 +271,7 @@ class Slider extends React.Component {
    */
   componentWillMount() {
     const {min, max, value, appearance} = this.props;
-    const {val, pos}        = getValueAndPos(value, min, max, appearance === ORIENT_VR);
+    const {val, pos}                    = getValueAndPos(value, min, max, appearance === ORIENT_VR);
 
     this.updatePosition(pos);
     this.updateValue(val);
@@ -288,9 +284,9 @@ class Slider extends React.Component {
    */
   render () {
 
-    const {focused, pos, moving} = this.state;
+    const {focused, pos, moving}        = this.state;
     const {appearance, value, disabled} = this.props;
-    const elStyle                = {[this.getRectProperty()] : `${pos}%`};
+    const elStyle                       = {[this.getRectProperty()] : `${pos}%`};
 
     return (
       <div

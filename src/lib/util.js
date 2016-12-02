@@ -18,3 +18,13 @@ export const callIfFunc = (fn, context = null, ...args) => {
   return fn.apply(context, args);
 };
 
+
+export const ComponentFactory = (constructor, displayName, propTypes = {}, defaultProps = {}) => {
+  const fn = (...args) => constructor.call(this, ...args);
+
+  fn.propTypes    = propTypes;
+  fn.defaultProps = defaultProps;
+  fn.displayName  = displayName;
+
+  return fn;
+};

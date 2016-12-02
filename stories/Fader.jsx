@@ -20,6 +20,7 @@ const valueToDb = (value, prec = 0.01, base = 10) => {
  */
 const getDb = (value) => {
   const val = valueToDb(value / 100, .1, 5);
+  
   return val === Number.NEGATIVE_INFINITY ? '-'
     + String.fromCharCode(parseInt('221E', 16)) : val.toString();
 };
@@ -63,8 +64,15 @@ export default class Fader extends React.Component {
 
     return (
       <Base style={elStyle} {...props}>
-        <Slider appearance={ORIENT_VR} value={value} min={0} max={162} step={.1} onUpdate={this.onUpdate}/>
-        <Label value={db}/>
+        <Slider 
+          appearance={ORIENT_VR} 
+          value={value} 
+          min={0} 
+          max={162} 
+          step={.1} 
+          onUpdate={this.onUpdate}>
+        </Slider>
+        <Label value={db}></Label>
       </Base>
     );
   }

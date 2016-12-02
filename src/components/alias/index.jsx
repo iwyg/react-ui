@@ -11,6 +11,7 @@ import {classNames} from 'lib/util';
 const aliasFromName = (name, len = 2) => {
   let parts = name.split(' ');
   const [head, ...tail] = parts.length > 1 ? parts.map(string => string[0]) : parts[0].split('');
+
   return [head, tail.slice(-(len - 1))].join('');
 };
 

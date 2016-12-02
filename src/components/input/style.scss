@@ -1,19 +1,58 @@
+@import "config";
+
 .inputContainer {
+  padding: 1rem;
+}
+.input {
   position: relative;
   width: 100%;
-  padding: .4rem;
 
   input:not([type=checkbox]):not([type=radio]):not([type=range]) {
-    position: absolute;
+    position: relative;
+    padding: 1rem 0;
     width: 100%;
     height: 100%;
     outline: none;
     tap-highlight-color: rgba(255, 255, 255, 0);
     border: none;
     background: transparent;
+    font-size: 1.6rem;
+    z-index: 1;
   }
-}
 
-.dirty {
-  background: red;
+  label, .baseLine {
+    @include input-transition(all);
+  }
+
+  label {
+    top: 0;
+    color: rgb(40, 40, 40);
+    left: 1rem;
+    position: absolute;
+    z-index: -1;
+
+    opacity: 0.8;
+  }
+
+  input:focus + label, label.dirty {
+    top: -25%;
+    left: 0;
+    font-size: 68%;
+    opacity: 0.5;
+  }
+
+  .baseLine {
+    height: .1rem;
+    background: black;
+    margin: 0 auto;
+    width: 100%;
+    transform: scaleX(0);
+    &.dirty {
+      transform: scaleX(1);
+    }
+  }
+
+  input:focus + * + .baseLine {
+    transform: scaleX(1);
+  }
 }

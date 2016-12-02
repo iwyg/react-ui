@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import Base from 'components/base';
-import {classNames} from 'lib/util';
+import {classNames, ComponentFactory} from 'lib/util';
 import style from './style';
 import config from 'components/config';
 
@@ -16,7 +16,7 @@ const sizes = config.sizes;
 const findShape = ({circle, square, diamond}) => {
   return [{circle}, {square}, {diamond}].map((shape) => {
     const key = Object.keys(shape).pop();
-    return [key, shape[key]]
+    return [key, shape[key]];
   })
     .filter(shape => shape.pop())
     .reduce((prev, shape) => shape.shift());
@@ -31,6 +31,7 @@ const propTypes = {
   circle: PropTypes.bool,
   diamond: PropTypes.bool,
   square: PropTypes.bool,
+  children: PropTypes.any
 };
 
 /**
@@ -53,7 +54,7 @@ const defaultProps = {
  * @constructor
  */
 const Avatar = (Component, dpName = 'Avatar') => {
-  const AvatarCmp = ({size, children, diamond, square, circle, ...props}) => {
+  return ComponentFactory(({size, children, diamond, square, circle, ...props}) => {
     const shape  = findShape({diamond, square, circle}) || 'circle';
 
     return (
@@ -61,13 +62,7 @@ const Avatar = (Component, dpName = 'Avatar') => {
         <Component {...props}>{children}</Component>
       </Base>
     );
-  };
-
-  AvatarCmp.propTypes    = propTypes;
-  AvatarCmp.defaultProps = defaultProps;
-  AvatarCmp.displayName  = dpName;
-
-  return AvatarCmp;
+  }, dpName, propTypes, defaultProps);
 };
 
 export default Avatar;
