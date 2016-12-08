@@ -1,7 +1,7 @@
 @import "config";
 
 .inputContainer {
-  padding: 1rem;
+  padding: 1.4rem 1rem;
 }
 .input {
   position: relative;
@@ -27,7 +27,7 @@
   label {
     top: 0;
     color: rgb(40, 40, 40);
-    left: 1rem;
+    left: 0;
     position: absolute;
     z-index: -1;
 

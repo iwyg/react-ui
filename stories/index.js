@@ -21,10 +21,16 @@ import Fader from './Fader';
 import fetch from 'isomorphic-fetch';
 import SelectDemo from './SelectDemo';
 import CheckBox from 'components/checkbox';
+import DatePicker from 'components/date';
 require('./base.scss');
 
 const CAvatar = Avatar(Wallpaper);
 const CAlias = Avatar(Alias);
+
+storiesOf('Date Picker', module)
+  .add('to Storybook', () => (
+    <DatePicker format=""/>
+  ));
 
 storiesOf('Welcome', module)
   .add('to Storybook', () => (
@@ -209,9 +215,10 @@ storiesOf('Input', module)
   .add('test', () => (
     <form>
       <Fieldset>
-        <Input type="text" label="Username or E-Mail" name="user" autocomplete='off'>
+        <Input type="text" label="Username or E-Mail" name="user" autocomplete='off' >
         </Input>
-        <Input type="password" label="Enter your password" name="user">
+        <Input type="password" label="Enter your password" name="user" onChange={(e) => console.log(e)}/>
+        <Input type="text" label="read only values" name="test" disabled value="im disabled">
         </Input>
       </Fieldset>
       <Button value="Login">Login</Button>
